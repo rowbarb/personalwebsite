@@ -396,132 +396,207 @@
     font-size: 0.9rem;
   }
 
-  /* ---------- content sections (about / projects / experience / contact) ---------- */
-  .content-section {
-    padding: 120px clamp(20px, 5vw, 56px);
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  .content-section.alt-bg { background: #131210; }
-  .section-kicker {
+  /* ---------- new framework: index/spec-sheet language (TE + SpaceX + resume-timeline) ---------- */
+  .index-kicker {
     font-family: var(--mono);
     font-size: 0.82rem;
     color: var(--accent);
-    letter-spacing: 0.04em;
-    margin-bottom: 16px;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
   }
-  .content-section h2 {
+
+  .stmt-section, .work-section, .cta-section {
+    padding: 140px clamp(20px, 5vw, 56px);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .stmt-section.alt-bg { background: #131210; }
+
+  .stmt {
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.15;
     letter-spacing: -0.01em;
-    margin-bottom: 28px;
-    max-width: 780px;
+    max-width: 1000px;
+    margin-bottom: 56px;
   }
-  .content-lede {
-    color: var(--paper-dim);
-    max-width: 680px;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    margin-bottom: 48px;
+  .stmt-dim { display: block; color: var(--paper-dim); font-weight: 500; }
+  .stmt-huge {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(3.2rem, 9vw, 7rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
   }
+  .cta-dot { color: var(--accent); }
+  .content-lede { color: var(--paper-dim); max-width: 560px; font-size: 1.05rem; line-height: 1.7; margin-bottom: 40px; }
 
-  /* about / education */
-  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-  .edu-card { border: 1px solid var(--line); border-left: 2px solid var(--accent); border-radius: 4px; padding: 26px 28px; }
-  .edu-degree { font-family: var(--display); font-weight: 600; font-size: 1.1rem; margin-bottom: 4px; }
-  .edu-focus { color: var(--accent); font-family: var(--mono); font-size: 0.85rem; margin-bottom: 12px; }
-  .edu-school { color: var(--paper-dim); font-size: 0.95rem; }
-  .edu-date { font-family: var(--mono); color: var(--paper-dim); font-size: 0.78rem; margin: 6px 0 16px; opacity: 0.7; }
-  .edu-courses { color: var(--paper-dim); font-size: 0.83rem; line-height: 1.7; }
-
-  /* projects */
-  .project-row {
+  /* about: spec table, like a datasheet parameter list */
+  .spec-table { border-top: 1px solid var(--line); max-width: 1000px; }
+  .spec-row {
     display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 56px;
-    align-items: center;
-    margin-bottom: 96px;
+    grid-template-columns: 140px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
   }
-  .project-row.media-left { grid-template-columns: 1fr 1.05fr; }
-  .project-row.media-left .project-media { order: 1; }
-  .project-row.media-left .project-copy { order: 2; }
-  .project-media {
+  .spec-key { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.04em; }
+  .spec-val { color: var(--paper); font-size: 1rem; line-height: 1.6; }
+  .spec-meta { font-family: var(--mono); font-size: 0.75rem; color: var(--paper-dim); white-space: nowrap; text-align: right; }
+
+  /* work: numbered index list + hover-swapped preview panel */
+  .work-wrap { display: grid; grid-template-columns: 1fr 360px; gap: 64px; align-items: start; }
+  .work-list { border-top: 1px solid var(--line); }
+  .work-item { border-bottom: 1px solid var(--line); }
+  .work-row {
+    all: unset;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 56px 1fr auto 28px;
+    align-items: baseline;
+    gap: 20px;
+    width: 100%;
+    padding: 22px 4px;
+    cursor: pointer;
+    transition: padding-left 0.2s ease, background 0.2s ease;
+  }
+  .work-row:hover { padding-left: 14px; background: rgba(255, 74, 31, 0.05); }
+  .work-num {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--paper-dim);
+    transition: color 0.2s ease;
+  }
+  .work-row:hover .work-num { color: var(--accent); }
+  .work-name {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--paper);
+    grid-row: 1;
+  }
+  .work-tag {
+    grid-column: 2;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--paper-dim);
+    margin-top: 4px;
+  }
+  .work-meta {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--paper-dim);
+    white-space: nowrap;
+    text-align: right;
+    align-self: start;
+  }
+  .work-toggle {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--paper-dim);
+    text-align: center;
+    align-self: start;
+    transition: transform 0.25s ease, color 0.2s ease;
+  }
+  .work-row:hover .work-toggle { color: var(--accent); }
+  .work-item.open .work-toggle { transform: rotate(45deg); color: var(--accent); }
+
+  /* accordion: grid-template-rows 0fr -> 1fr trick, no JS height measuring needed */
+  .work-detail-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+  .work-item.open .work-detail-wrap { grid-template-rows: 1fr; }
+  .work-detail-inner { overflow: hidden; }
+  .work-detail {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 40px;
+    padding: 8px 4px 40px;
+  }
+  .work-detail-media {
     border: 1px solid var(--line);
     border-radius: 4px;
     overflow: hidden;
     background: #131210;
     aspect-ratio: 4 / 3;
   }
-  .project-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .project-tag { font-family: var(--mono); color: var(--accent); font-size: 0.78rem; margin-bottom: 12px; }
-  .project-copy h3 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; margin-bottom: 14px; }
-  .project-copy p { color: var(--paper-dim); line-height: 1.7; margin-bottom: 18px; }
-  .project-stats { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-  .project-stats li { color: var(--paper-dim); font-size: 0.92rem; padding-left: 18px; position: relative; }
-  .project-stats li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
-  .project-stats strong { color: var(--paper); font-family: var(--mono); }
-
-  .project-row.with-gallery { margin-bottom: 40px; }
-  .project-gallery {
-    grid-column: 1 / -1;
+  .work-detail-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work-detail-media svg { width: 100%; height: 100%; padding: 24px; color: var(--accent); }
+  .work-detail-copy p { color: var(--paper-dim); line-height: 1.75; font-size: 0.98rem; margin-bottom: 20px; }
+  .work-detail-copy em { color: var(--paper); font-style: italic; }
+  .work-stats { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .work-stats li {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--paper-dim);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .work-stats li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+  .work-gallery {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 96px;
+    gap: 10px;
+    margin-top: 22px;
   }
-  .gallery-thumb {
-    position: relative;
+  .work-gallery a {
     display: block;
     aspect-ratio: 4 / 3;
     border: 1px solid var(--line);
     border-radius: 4px;
     overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  .work-gallery a:hover { border-color: var(--accent); }
+  .work-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .work-preview {
+    position: sticky;
+    top: 120px;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
     background: #131210;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .gallery-thumb:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .gallery-caption {
+  .work-preview-media { width: 100%; height: 100%; }
+  .work-preview-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work-preview-media svg { width: 100%; height: 100%; padding: 30px; color: var(--accent); }
+  .work-preview-hint {
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 5px 8px;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    color: var(--paper);
-    background: linear-gradient(to top, rgba(13, 13, 11, 0.92), transparent);
-  }
-
-  .more-kicker { margin-top: 8px; margin-bottom: 24px; font-family: var(--mono); font-size: 0.8rem; color: var(--paper-dim); }
-  .mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-  .mini-card { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; transition: border-color 0.2s ease, transform 0.2s ease; }
-  .mini-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .mini-media { aspect-ratio: 3 / 2; background: #131210; overflow: hidden; border-bottom: 1px solid var(--line); }
-  .mini-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .mini-card .project-tag { padding: 18px 20px 0; margin-bottom: 8px; }
-  .mini-card h4 { font-family: var(--display); font-weight: 600; font-size: 1.05rem; padding: 0 20px; margin-bottom: 10px; }
-  .mini-card p { padding: 0 20px 20px; color: var(--paper-dim); font-size: 0.9rem; line-height: 1.6; }
-
-  /* experience */
-  .exp-item { max-width: 760px; margin-bottom: 36px; }
-  .exp-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 6px; }
-  .exp-header h3 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; }
-  .exp-date { font-family: var(--mono); color: var(--paper-dim); font-size: 0.78rem; }
-  .exp-company { color: var(--accent); font-size: 0.92rem; margin-bottom: 16px; }
-  .exp-item ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .exp-item li { color: var(--paper-dim); padding-left: 18px; position: relative; font-size: 0.93rem; line-height: 1.6; }
-  .exp-item li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
-  .other-exp { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
-  .exp-tag {
     font-family: var(--mono);
     font-size: 0.78rem;
-    padding: 7px 13px;
-    border-radius: 4px;
-    border: 1px solid var(--line);
     color: var(--paper-dim);
   }
+  .work-preview:has(img, svg) .work-preview-hint { display: none; }
 
-  /* buttons (this file never needed one before — no CTAs in the locked-in hero) */
+  /* experience: manifest/launch-list style */
+  .manifest { border-top: 1px solid var(--line); max-width: 900px; }
+  .manifest-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 110px;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .manifest-date { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); }
+  .manifest-role { font-family: var(--display); font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; }
+  .manifest-co { font-family: var(--sans); font-weight: 400; color: var(--paper-dim); font-size: 0.95rem; }
+  .manifest-desc { color: var(--paper-dim); font-size: 0.92rem; line-height: 1.6; }
+  .manifest-loc { font-family: var(--mono); font-size: 0.75rem; color: var(--paper-dim); text-align: right; }
+  .other-exp { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 40px; }
+  .exp-tag { font-family: var(--mono); font-size: 0.78rem; padding: 7px 13px; border-radius: 4px; border: 1px solid var(--line); color: var(--paper-dim); }
+
+  /* buttons */
   .btn {
     display: inline-block;
     font-family: var(--mono);
@@ -553,11 +628,17 @@
   }
   .site-footer a:hover { color: var(--accent); }
 
-  @media (max-width: 860px) {
-    .project-row, .project-row.media-left { grid-template-columns: 1fr; }
-    .project-row.media-left .project-media { order: 0; }
-    .project-row.media-left .project-copy { order: 1; }
-    .project-gallery { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) {
+    .work-wrap { grid-template-columns: 1fr; }
+    .work-preview { position: static; aspect-ratio: 16/9; }
+    .work-detail { grid-template-columns: 1fr; }
+    .work-gallery { grid-template-columns: repeat(2, 1fr); }
+    .work-row { grid-template-columns: 40px 1fr 24px; }
+    .work-meta { display: none; }
+    .manifest-row { grid-template-columns: 1fr; gap: 8px; }
+    .manifest-loc { text-align: left; }
+    .spec-row { grid-template-columns: 1fr; gap: 6px; }
+    .spec-meta { text-align: left; }
   }
 </style>
 </head>
@@ -569,7 +650,7 @@
   <a href="#top" class="nav-mark">RB</a>
   <div class="nav-links">
     <a href="#about">about</a>
-    <a href="#projects">work</a>
+    <a href="#work">work</a>
     <a href="#contact">contact</a>
   </div>
 </nav>
@@ -743,8 +824,8 @@
       <line id="axBaseY" class="axis-line axis-y" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowPaper)" />
       <line id="axElbowX" class="axis-line axis-x" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowAccent)" />
       <line id="axElbowY" class="axis-line axis-y" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowPaper)" />
-      <line id="axWristX" class="axis-line axis-x" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowAccent)" style="display:none" />
-      <line id="axWristY" class="axis-line axis-y" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowPaper)" style="display:none" />
+      <line id="axWristX" class="axis-line axis-x" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowAccent)" />
+      <line id="axWristY" class="axis-line axis-y" x1="70" y1="390" x2="70" y2="390" marker-end="url(#arrowPaper)" />
 
       <text id="labelQ1" class="axis-label" x="70" y="390">q1</text>
       <text id="labelQ2" class="axis-label" x="70" y="390">q2</text>
@@ -763,7 +844,7 @@
            they layer on top; "d" is computed every frame in updateArm() alongside everything else. -->
       <path id="sectorQ1" class="angle-sector" />
       <path id="sectorQ2" class="angle-sector" />
-      <path id="sectorQ3" class="angle-sector" style="display:none" />
+      <path id="sectorQ3" class="angle-sector" />
 
       <!-- End-effector: plain flat-fill circle, no gradient/highlight/gooey shape — just the
            existing size/color change on grip (see blobRadius/blobColorAmt in updateArm()). -->
@@ -809,211 +890,347 @@
   </div>
 </div>
 
-<section class="content-section" id="about">
-  <p class="section-kicker">01 — About</p>
-  <h2>Recently graduated, ready to build.</h2>
-  <p class="content-lede">
-    I finished my Master's in May 2026 with a concentration in Control Systems, on top of a
-    B.E. in Mechanical Engineering with a Green Engineering minor. My coursework and projects
-    sit at the intersection of mechanical design and controls — I'm equally comfortable running
-    a thermal FEA study, tuning a PID loop, or CNC-milling the part that houses both.
-  </p>
-  <div class="edu-grid">
-    <div class="edu-card">
-      <p class="edu-degree">M.E., Mechanical Engineering</p>
-      <p class="edu-focus">Control Systems Concentration</p>
-      <p class="edu-school">Stevens Institute of Technology</p>
-      <p class="edu-date">May 2026</p>
-      <p class="edu-courses">Autonomous Navigation for Mobile Robots · Mobile Micro-robotic Systems · Modern Control Engineering · Analytical Dynamics</p>
+<section class="stmt-section" id="about">
+  <p class="index-kicker">01 / ABOUT</p>
+  <h2 class="stmt">
+    I design, build, and control physical systems —
+    <span class="stmt-dim">from CNC-fabricated thermal hardware to closed-loop mobile robots.</span>
+  </h2>
+  <div class="spec-table">
+    <div class="spec-row">
+      <span class="spec-key">DEGREE</span>
+      <span class="spec-val">M.E., Mechanical Engineering — Control Systems Concentration</span>
+      <span class="spec-meta">Stevens Institute of Technology · May 2026</span>
     </div>
-    <div class="edu-card">
-      <p class="edu-degree">B.E., Mechanical Engineering</p>
-      <p class="edu-focus">Minor in Green Engineering</p>
-      <p class="edu-school">Stevens Institute of Technology</p>
-      <p class="edu-date">May 2025</p>
-      <p class="edu-courses">Design of Dynamical Systems · Thermal Engineering · Manufacturing Processes &amp; Systems · Fluid Mechanics · Engineering Economics</p>
+    <div class="spec-row">
+      <span class="spec-key">DEGREE</span>
+      <span class="spec-val">B.E., Mechanical Engineering — Green Engineering Minor</span>
+      <span class="spec-meta">Stevens Institute of Technology · May 2025</span>
+    </div>
+    <div class="spec-row">
+      <span class="spec-key">COURSEWORK</span>
+      <span class="spec-val">Autonomous Navigation for Mobile Robots · Modern Control Engineering · Analytical Dynamics · Mobile Micro-robotic Systems</span>
+      <span class="spec-meta">GRAD</span>
+    </div>
+    <div class="spec-row">
+      <span class="spec-key">COURSEWORK</span>
+      <span class="spec-val">Design of Dynamical Systems · Thermal Engineering · Manufacturing Processes &amp; Systems · Fluid Mechanics</span>
+      <span class="spec-meta">UNDERGRAD</span>
+    </div>
+    <div class="spec-row">
+      <span class="spec-key">TOOLS</span>
+      <span class="spec-val">SolidWorks · MATLAB &amp; Simulink · ANSYS · Arduino/C++ · Python · CNC Milling · TIG Welding</span>
+      <span class="spec-meta">--</span>
     </div>
   </div>
 </section>
 
-<section class="content-section" id="projects">
-  <p class="section-kicker">02 — Projects</p>
-  <h2>Selected work.</h2>
+<section class="work-section" id="work">
+  <p class="index-kicker">02 / WORK</p>
+  <h2 class="stmt">Nine projects.<span class="stmt-dim">Hover to preview, click to expand.</span></h2>
 
-  <div class="project-row with-gallery">
-    <div class="project-media">
-      <img src="images/squirp-robot.png" alt="Assembled autonomous campus tour robot with ultrasonic sensors, GPS float, and Arduino electronics" loading="lazy">
-    </div>
-    <div class="project-copy">
-      <p class="project-tag">Mechanical Design · Embedded Control · Navigation</p>
-      <h3>Autonomous Campus Tour Robot</h3>
-      <p>
-        Designed and fabricated a 3D-printed autonomous ground robot integrating a YDLIDAR G4
-        laser scanner and multiple ultrasonic sensors for real-time obstacle detection. Wrote
-        the path-planning and target-reaching logic in Arduino, streaming live x-y position
-        data over MQTT/Wi-Fi to navigate an outdoor obstacle course.
-      </p>
-    </div>
-  </div>
-  <div class="project-gallery">
-    <a class="gallery-thumb" href="images/campus-target-map.png" target="_blank" rel="noopener">
-      <img src="images/campus-target-map.png" alt="Target map overlaying navigation waypoints T1–T4 on Stevens Institute campus buildings" loading="lazy">
-      <span class="gallery-caption">Target map</span>
-    </a>
-    <a class="gallery-thumb" href="images/campus-pcb-schematic.png" target="_blank" rel="noopener">
-      <img src="images/campus-pcb-schematic.png" alt="PCB schematic showing WeMos D1, OLED display, ultrasonic sensors, and motor driver wiring" loading="lazy">
-      <span class="gallery-caption">PCB schematic</span>
-    </a>
-    <a class="gallery-thumb" href="images/campus-cad-exploded-full.png" target="_blank" rel="noopener">
-      <img src="images/campus-cad-exploded-full.png" alt="Exploded SolidWorks assembly of the full robot chassis and electronics stack" loading="lazy">
-      <span class="gallery-caption">CAD assembly</span>
-    </a>
-    <a class="gallery-thumb" href="images/campus-cad-exploded-detail.png" target="_blank" rel="noopener">
-      <img src="images/campus-cad-exploded-detail.png" alt="Exploded SolidWorks detail view of the sensor mount and drive base" loading="lazy">
-      <span class="gallery-caption">CAD detail</span>
-    </a>
-  </div>
+  <div class="work-wrap">
+    <div class="work-list" id="workList">
 
-  <div class="project-row media-left">
-    <div class="project-media project-media-schematic">
-      <svg viewBox="0 0 480 320" style="width:100%;height:100%;padding:20px;color:var(--accent)" aria-hidden="true">
-        <rect x="40" y="60" width="220" height="180" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
-        <rect x="60" y="80" width="180" height="140" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
-        <path d="M80 200 q10 -30 20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <text x="70" y="245" font-family="var(--mono)" font-size="11" fill="currentColor" opacity="0.8">Heating Element</text>
-        <line x1="260" y1="120" x2="340" y2="120" stroke="currentColor" stroke-width="1.5"/>
-        <line x1="260" y1="160" x2="340" y2="160" stroke="currentColor" stroke-width="1.5" marker-end="url(#arrowGCO)"/>
-        <text x="270" y="110" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">sense</text>
-        <text x="270" y="180" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">actuate</text>
-        <rect x="340" y="95" width="100" height="130" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
-        <text x="352" y="120" font-family="var(--mono)" font-size="11" fill="currentColor" opacity="0.8">PID</text>
-        <text x="352" y="140" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">setpoint:</text>
-        <text x="352" y="156" font-family="var(--mono)" font-size="9" fill="currentColor">400°C</text>
-        <defs>
-          <marker id="arrowGCO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/>
-          </marker>
-        </defs>
-      </svg>
-    </div>
-    <div class="project-copy">
-      <p class="project-tag">Thermal Systems · PID Control · CNC Fabrication</p>
-      <h3>Programmable Gas Chromatography Oven</h3>
-      <p>
-        Led the mechanical design team building a programmable GC oven capable of ramping to
-        400°C in under twenty minutes. Modeled and prototyped the enclosure in SolidWorks, then
-        fabricated the inner and outer steel shells via CNC milling, lathe work, riveting, and
-        TIG welding. Implemented and tuned closed-loop PID temperature control on Arduino with
-        heating elements and thermocouples.
-      </p>
-      <ul class="project-stats">
-        <li><strong>&lt;20 min</strong> ramp rate to 400°C</li>
-        <li><strong>30%</strong> reduction in settling time after PID tuning</li>
-        <li>Led weekly progress meetings for a 5-person mechanical team</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="project-row">
-    <div class="project-media project-media-schematic">
-      <svg viewBox="0 0 480 320" style="width:100%;height:100%;padding:20px;color:var(--accent)" aria-hidden="true">
-        <rect x="30" y="30" width="420" height="260" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 6"/>
-        <rect x="200" y="150" width="40" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
-        <path d="M180 60 h-90 v200 h90" fill="none" stroke="currentColor" stroke-width="2.5"/>
-        <path d="M220 150 q0 -60 0 -90" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrowMRS)"/>
-        <text x="150" y="55" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">wall</text>
-        <path d="M240 163 C 300 163 340 130 380 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
-        <path d="M240 163 C 300 163 330 200 370 220" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
-        <text x="330" y="95" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">ultrasonic</text>
-        <text x="330" y="235" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">feedback</text>
-        <defs>
-          <marker id="arrowMRS" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto">
-            <path d="M0,6 L4,0 L8,6 Z" fill="currentColor"/>
-          </marker>
-        </defs>
-      </svg>
-    </div>
-    <div class="project-copy">
-      <p class="project-tag">MATLAB · Closed-Loop Control · Simulation</p>
-      <h3>Mobile Robot Simulation &amp; Closed-Loop Control</h3>
-      <p>
-        Built a closed-loop control system for a simulated differential-drive mobile robot
-        using ultrasonic sensor feedback for environmental awareness. Designed function-based
-        control logic in MATLAB for wall-tracking and obstacle avoidance, validating the
-        controller across thousands of randomized simulated trials.
-      </p>
-      <ul class="project-stats">
-        <li><strong>5,000</strong> simulated trials run for validation</li>
-        <li>Consistent, timely course completion across all trials</li>
-      </ul>
-    </div>
-  </div>
-
-  <p class="more-kicker">More projects</p>
-  <div class="mini-grid">
-    <article class="mini-card">
-      <div class="mini-media">
-        <svg viewBox="0 0 300 200" style="width:100%;height:100%;padding:24px;color:var(--accent)" aria-hidden="true">
-          <circle cx="60" cy="160" r="6" fill="currentColor"/>
-          <line x1="60" y1="160" x2="110" y2="100" stroke="currentColor" stroke-width="2.5"/>
-          <circle cx="110" cy="100" r="5" fill="currentColor"/>
-          <line x1="110" y1="100" x2="180" y2="80" stroke="currentColor" stroke-width="2.5"/>
-          <circle cx="180" cy="80" r="4.5" fill="currentColor"/>
-          <line x1="180" y1="80" x2="230" y2="95" stroke="currentColor" stroke-width="2"/>
-          <circle cx="230" cy="95" r="4" fill="currentColor"/>
-          <line x1="230" y1="95" x2="255" y2="70" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="255" cy="70" r="3.5" fill="currentColor"/>
-          <text x="65" y="180" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q1</text>
-          <text x="100" y="90" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q2</text>
-          <text x="175" y="65" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q3</text>
-          <text x="230" y="115" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q4</text>
-        </svg>
+      <div class="work-item">
+        <button class="work-row" data-kind="img" data-preview="images/squirp-robot.png">
+          <span class="work-num">01</span>
+          <span class="work-name">Autonomous Campus Tour Robot</span>
+          <span class="work-tag">Mechanical Design · Embedded Control · Navigation</span>
+          <span class="work-meta">YDLIDAR G4 · MQTT/Wi-Fi</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media"><img src="images/squirp-robot.png" alt="Assembled autonomous campus tour robot with ultrasonic sensors, GPS float, and Arduino electronics" loading="lazy"></div>
+              <div class="work-detail-copy">
+                <p>Designed and fabricated a 3D-printed autonomous ground robot integrating a
+                YDLIDAR G4 laser scanner and multiple ultrasonic sensors for real-time obstacle
+                detection. Wrote the path-planning and target-reaching logic in Arduino,
+                streaming live x-y position data over MQTT/Wi-Fi to navigate an outdoor obstacle
+                course with waypoints mapped to real campus landmarks.</p>
+                <ul class="work-stats">
+                  <li>YDLIDAR G4 laser scanner for real-time odometry</li>
+                  <li>Multi-sensor obstacle detection — ultrasonic + LiDAR</li>
+                  <li>Live path-planning telemetry over MQTT/Wi-Fi</li>
+                </ul>
+                <div class="work-gallery">
+                  <a href="images/campus-target-map.png" target="_blank" rel="noopener"><img src="images/campus-target-map.png" alt="Target map overlaying navigation waypoints T1–T4 on Stevens Institute campus buildings" loading="lazy"></a>
+                  <a href="images/campus-pcb-schematic.png" target="_blank" rel="noopener"><img src="images/campus-pcb-schematic.png" alt="PCB schematic showing WeMos D1, OLED display, ultrasonic sensors, and motor driver wiring" loading="lazy"></a>
+                  <a href="images/campus-cad-exploded-full.png" target="_blank" rel="noopener"><img src="images/campus-cad-exploded-full.png" alt="Exploded SolidWorks assembly of the full robot chassis and electronics stack" loading="lazy"></a>
+                  <a href="images/campus-cad-exploded-detail.png" target="_blank" rel="noopener"><img src="images/campus-cad-exploded-detail.png" alt="Exploded SolidWorks detail view of the sensor mount and drive base" loading="lazy"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="project-tag">MATLAB · DH Convention</p>
-      <h4>Dobot Robot Arm Kinematics</h4>
-      <p>Derived and validated forward and inverse kinematic models for a 5-DOF serial
-      manipulator using Denavit–Hartenberg convention; confirmed results against simulated
-      motion.</p>
-    </article>
 
-    <article class="mini-card">
-      <div class="mini-media">
-        <img src="images/coldplate-cad.jpg" alt="SolidWorks CAD model of a cold plate microchannel cross-section" loading="lazy">
+      <div class="work-item">
+        <button class="work-row" data-kind="svg" data-svg="svgGCOven">
+          <span class="work-num">02</span>
+          <span class="work-name">Programmable Gas Chromatography Oven</span>
+          <span class="work-tag">Thermal/Structural FEA · PID Control · CNC Fabrication</span>
+          <span class="work-meta">400°C · 5-min cooldown</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media" data-svg-slot="svgGCOven"></div>
+              <div class="work-detail-copy">
+                <p>Led the mechanical design team on a faculty-advised capstone (Group A7,
+                sponsored by GOW-MAC) building a programmable GC oven — the core challenge
+                being not just fast heating, but fast <em>cooldown</em> between sample runs,
+                since that's what actually limits GC throughput. Validated the AISI 304 steel
+                enclosure with SolidWorks structural (2 atm internal pressure), thermal, and CFD
+                flow analysis before fabricating the inner and outer shells via CNC milling,
+                lathe work, riveting, and TIG welding. Implemented and tuned closed-loop PID
+                temperature control on Arduino with heating elements and thermocouples.</p>
+                <ul class="work-stats">
+                  <li>Ramp targets: 40°C/min to 200°C, tapering to 7°C/min approaching 400°C</li>
+                  <li>Cooldown targets: 350&rarr;75°C in 5 min, 300&rarr;50°C in 8 min</li>
+                  <li>Structural design verified to 2 atm internal pressure in SolidWorks FEA</li>
+                  <li>Led weekly progress meetings for a 5-person, faculty-advised team</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="project-tag">SolidWorks · Thermal Design</p>
-      <h4>MCM Cold Plate Design</h4>
-      <p>Designed a microchannel cold plate for multi-chip module thermal management, sizing
-      channel geometry in SolidWorks to meet heat-dissipation targets.</p>
-    </article>
 
-    <article class="mini-card">
-      <div class="mini-media">
-        <img src="images/submersible-bode.jpg" alt="Bode plot and step response for a PID-compensated pitch control system" loading="lazy">
+      <div class="work-item">
+        <button class="work-row" data-kind="svg" data-svg="svgMobileSim">
+          <span class="work-num">03</span>
+          <span class="work-name">Mobile Robot Simulation &amp; Closed-Loop Control</span>
+          <span class="work-tag">MATLAB &amp; Simulink · Wall-Following · Sensor Feedback</span>
+          <span class="work-meta">Closed-loop · Simulink</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media" data-svg-slot="svgMobileSim"></div>
+              <div class="work-detail-copy">
+                <p>Simulated a differential-drive robot in MATLAB's Robotics Playground,
+                wall-following the perimeter of a 4m&times;4m arena using a single
+                front-facing distance sensor. Starting from an open-loop test of
+                forward/reverse/arcing motions, built up a closed-loop switch-block controller,
+                then replaced a "naive" threshold-based version with a buffer-enforced design
+                (derived from the sensor's field of view and a 0.25m safety margin) that tracked
+                the wall more reliably at near-parallel approach angles.</p>
+                <ul class="work-stats">
+                  <li>Closed-loop wall-tracking from a single 2m-range distance sensor</li>
+                  <li>Derived a 1.0m switching threshold from geometry, not guesswork</li>
+                  <li>5-person team project, ME 598 Introduction to Robotics</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="project-tag">MATLAB · PID/PD Design</p>
-      <h4>AUV Pitch Control Compensator</h4>
-      <p>Analyzed and redesigned a closed-loop pitch-control architecture for an unmanned
-      submersible via root locus and Bode analysis, then designed PD/PID compensators to meet
-      stability and settling-time specs.</p>
-    </article>
+
+      <div class="work-item">
+        <button class="work-row" data-kind="svg" data-svg="svgDobot">
+          <span class="work-num">04</span>
+          <span class="work-name">Dobot Robot Arm Kinematics</span>
+          <span class="work-tag">MATLAB · Denavit&ndash;Hartenberg Convention</span>
+          <span class="work-meta">5-DOF · RRRRR</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media" data-svg-slot="svgDobot"></div>
+              <div class="work-detail-copy">
+                <p>Derived and validated forward and inverse kinematic models for the Dobot, a
+                5-DOF RRRRR serial manipulator, using Denavit&ndash;Hartenberg convention
+                (&alpha; = [90°, 0°, 0°, -90°, 0°]). Modeled joint limits from the physical
+                hardware and validated the symbolic forward-kinematics solution against
+                simulated motion across three test trials.</p>
+                <ul class="work-stats">
+                  <li>Joint limits: base &plusmn;130°, shoulder 5°&ndash;95°, elbow 0°&ndash;120°</li>
+                  <li>Symbolic forward-kinematics solution validated across 3 trials</li>
+                  <li>Group project, ME 598 Introduction to Robotics</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <button class="work-row" data-kind="img" data-preview="images/coldplate-thermal-study.jpg">
+          <span class="work-num">05</span>
+          <span class="work-name">MCM Cold Plate Design</span>
+          <span class="work-tag">SolidWorks · Thermal/Fluid Simulation</span>
+          <span class="work-meta">108W · &lt;40°C</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media"><img src="images/coldplate-thermal-study.jpg" alt="SolidWorks thermal simulation showing temperature distribution across the aluminum cold plate" loading="lazy"></div>
+              <div class="work-detail-copy">
+                <p>Designed an aluminum (k = 190 W/m&middot;K) microchannel cold plate for
+                IBM's Thermal Conduction Module, sized to dissipate a 108 W chip load while
+                holding surface temperature under 40°C. Ran parametric SolidWorks studies
+                sweeping channel geometry and flow rate, then compared alternative plate
+                materials — PVC's low conductivity (k = 0.147 W/m&middot;K) let the surface
+                spike to 6076°C, underscoring how sensitive the design is to material choice.</p>
+                <ul class="work-stats">
+                  <li>Aluminum plate, k = 190 W/m&middot;K, 108 W chip load, &lt;40°C target</li>
+                  <li>Parametric SolidWorks sweep over channel geometry and flow rate</li>
+                  <li>PVC alternative spiked to 6076°C — material choice matters</li>
+                  <li>2-person team project, ME 354 Heat Transfer</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <button class="work-row" data-kind="img" data-preview="images/auv-bode-margins.jpg">
+          <span class="work-num">06</span>
+          <span class="work-name">AUV Pitch Control Compensator</span>
+          <span class="work-tag">MATLAB · PID/PD Design</span>
+          <span class="work-meta">PM 74.5° · GM 15.9dB</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media"><img src="images/auv-bode-margins.jpg" alt="Bode plot of the submersible pitch-control system at K=1.04, showing 74.51° phase margin and 15.94 dB gain margin" loading="lazy"></div>
+              <div class="work-detail-copy">
+                <p>Analyzed an unmanned submersible's pitch-control architecture via root
+                locus and Bode analysis (baseline: 74.5° phase margin, 15.9 dB gain margin).
+                Designed a PD compensator — K(s) = 1.47(s + 2.04) — then refined it into a PID
+                compensator to meet the project's &le;15% overshoot, &le;15s settling time, and
+                zero steady-state error requirements.</p>
+                <ul class="work-stats">
+                  <li>Baseline system: 74.5° phase margin, 15.9 dB gain margin</li>
+                  <li>PD compensator: K(s) = 1.47(s + 2.04)</li>
+                  <li>Final PID compensator meets &le;15% OS, &le;15s settling, zero SS error</li>
+                  <li>4-person team project, ME 483 Control Systems</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <button class="work-row" data-kind="img" data-preview="images/cone-detection-pipeline.jpg">
+          <span class="work-num">07</span>
+          <span class="work-name">Vision-Based Obstacle Detection</span>
+          <span class="work-tag">MATLAB · Computer Vision</span>
+          <span class="work-meta">HSV + Blob Analysis</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media"><img src="images/cone-detection-pipeline.jpg" alt="Image processing pipeline showing HSV color thresholding, region filtering, and centroid extraction on a traffic cone" loading="lazy"></div>
+              <div class="work-detail-copy">
+                <p>Built an HSV color-thresholding pipeline to detect traffic cones from a
+                mobile robot's camera feed, tuning hue/saturation/value ranges across a labeled
+                training set, then used connected-component analysis to filter noise and
+                extract each cone's centroid for downstream localization.</p>
+                <ul class="work-stats">
+                  <li>HSV thresholding tuned across a labeled training image set</li>
+                  <li>Connected-component filtering to reject background noise</li>
+                  <li>Centroid extraction feeding downstream localization</li>
+                  <li>5-person team project, ME 598 Introduction to Robotics</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <button class="work-row" data-kind="svg" data-svg="svgRRT">
+          <span class="work-num">08</span>
+          <span class="work-name">RRT Path Planning Under Localization Uncertainty</span>
+          <span class="work-tag">MATLAB · RRT · State Estimation</span>
+          <span class="work-meta">100 trials · RRT</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media" data-svg-slot="svgRRT"></div>
+              <div class="work-detail-copy">
+                <p>Ran 100 RRT trials through an obstacle field with a landmark-based
+                localization model and found that path length barely predicts terminal position
+                uncertainty — the shortest path found (length &asymp;102) landed among the
+                least-certain outcomes, while a similar-length path (&asymp;112) that stayed
+                closer to landmarks was far more confident, showing that what a robot can
+                <em>see</em> along a route matters more than how far it travels.</p>
+                <ul class="work-stats">
+                  <li>100 RRT trials through a landmark-based obstacle field</li>
+                  <li>Shortest path (&asymp;102) landed among the least-confident outcomes</li>
+                  <li>A landmark-hugging path (&asymp;112) was far more confident despite similar length</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <button class="work-row" data-kind="svg" data-svg="svgSLAM">
+          <span class="work-num">09</span>
+          <span class="work-name">SLAM: Least Squares &amp; Kalman Filter Localization</span>
+          <span class="work-tag">MATLAB · Batch Least Squares · Kalman Filter</span>
+          <span class="work-meta">BLS + Kalman Filter</span>
+          <span class="work-toggle">+</span>
+        </button>
+        <div class="work-detail-wrap">
+          <div class="work-detail-inner">
+            <div class="work-detail">
+              <div class="work-detail-media" data-svg-slot="svgSLAM"></div>
+              <div class="work-detail-copy">
+                <p>Implemented and compared two discrete-time SLAM approaches — batch least
+                squares and a linear Kalman filter — for a mobile robot navigating by odometry
+                alone versus odometry fused with landmark detections. Odometry-only position
+                error grew steadily to roughly 0.26m over a 100-second traversal; adding
+                landmark measurements visibly suppressed that drift in both estimators.</p>
+                <ul class="work-stats">
+                  <li>Compared batch least squares vs. linear Kalman filter estimators</li>
+                  <li>Odometry-only drift reached &asymp;0.26m over a 100s traversal</li>
+                  <li>Landmark fusion visibly suppressed drift in both estimators</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="work-preview" id="workPreview">
+      <div class="work-preview-media" id="workPreviewMedia"></div>
+      <p class="work-preview-hint">hover a row —></p>
+    </div>
   </div>
 </section>
 
-<section class="content-section alt-bg" id="experience">
-  <p class="section-kicker">03 — Experience</p>
-  <h2>Where I've worked.</h2>
+<section class="stmt-section alt-bg" id="experience">
+  <p class="index-kicker">03 / EXPERIENCE</p>
+  <h2 class="stmt">Where I've worked.</h2>
 
-  <div class="exp-item">
-    <div class="exp-header">
-      <h3>Engineering Intern</h3>
-      <span class="exp-date">Jun 2023 – Aug 2023</span>
+  <div class="manifest">
+    <div class="manifest-row">
+      <span class="manifest-date">JUN 2023 &ndash; AUG 2023</span>
+      <div class="manifest-body">
+        <p class="manifest-role">Engineering Intern <span class="manifest-co">— McGoey, Hauser &amp; Edsall Consulting Engineers, D.P.C.</span></p>
+        <p class="manifest-desc">Produced engineering and site plans in AutoCAD for municipal and private infrastructure projects, including roadway drainage and structural renovation. Conducted field inspections to verify construction compliance and analyzed watermain material data for the Town of Port Jervis, NY.</p>
+      </div>
+      <span class="manifest-loc">Milford, PA</span>
     </div>
-    <p class="exp-company">McGoey, Hauser &amp; Edsall Consulting Engineers, D.P.C. · Milford, PA</p>
-    <ul>
-      <li>Produced engineering and site plans in AutoCAD for municipal and private infrastructure projects, including roadway drainage and structural renovation.</li>
-      <li>Conducted field inspections to verify construction compliance with engineering specifications.</li>
-      <li>Analyzed and organized watermain material data in Excel for the Town of Port Jervis, NY, supporting infrastructure condition assessment.</li>
-    </ul>
   </div>
 
   <div class="other-exp">
@@ -1023,13 +1240,12 @@
   </div>
 </section>
 
-<section class="content-section" id="contact">
-  <p class="section-kicker">04 — Contact</p>
-  <h2>Let's talk.</h2>
+<section class="cta-section" id="contact">
+  <p class="index-kicker">04 / CONTACT</p>
+  <h2 class="stmt-huge">Let's<br>build<br>something.<span class="cta-dot">.</span></h2>
   <p class="content-lede">
-    I'm actively looking for full-time opportunities in robotics, controls, automation, or
-    mechanical design. If you have a role that could use a mechanical engineer who's
-    comfortable across the whole stack — CAD to controller — I'd love to hear from you.
+    Actively looking for full-time roles in robotics, controls, automation, or mechanical
+    design — CAD to controller.
   </p>
   <div class="contact-actions">
     <a class="btn btn-primary" href="mailto:rbarbalich11@gmail.com">rbarbalich11@gmail.com</a>
@@ -1042,6 +1258,75 @@
   <p>© 2026 Rowan Barbalich.</p>
   <a href="#top">Back to top ↑</a>
 </footer>
+
+<!-- hidden library of inline SVG schematics, cloned into the work-preview panel on hover -->
+<div id="svgLibrary" style="display:none">
+  <svg id="svgGCOven" viewBox="0 0 480 320" aria-hidden="true">
+    <rect x="40" y="60" width="220" height="180" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+    <rect x="60" y="80" width="180" height="140" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
+    <path d="M80 200 q10 -30 20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <text x="70" y="245" font-family="var(--mono)" font-size="11" fill="currentColor" opacity="0.8">Heating Element</text>
+    <line x1="260" y1="120" x2="340" y2="120" stroke="currentColor" stroke-width="1.5"/>
+    <line x1="260" y1="160" x2="340" y2="160" stroke="currentColor" stroke-width="1.5" marker-end="url(#arrowGCO)"/>
+    <text x="270" y="110" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">sense</text>
+    <text x="270" y="180" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">actuate</text>
+    <rect x="340" y="95" width="100" height="130" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="352" y="120" font-family="var(--mono)" font-size="11" fill="currentColor" opacity="0.8">PID</text>
+    <text x="352" y="140" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">setpoint:</text>
+    <text x="352" y="156" font-family="var(--mono)" font-size="9" fill="currentColor">400°C</text>
+    <defs><marker id="arrowGCO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker></defs>
+  </svg>
+
+  <svg id="svgMobileSim" viewBox="0 0 480 320" aria-hidden="true">
+    <rect x="30" y="30" width="420" height="260" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 6"/>
+    <rect x="200" y="150" width="40" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M180 60 h-90 v200 h90" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <path d="M220 150 q0 -60 0 -90" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrowMRS)"/>
+    <text x="150" y="55" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">wall</text>
+    <path d="M240 163 C 300 163 340 130 380 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
+    <path d="M240 163 C 300 163 330 200 370 220" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
+    <text x="330" y="95" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">sensor</text>
+    <defs><marker id="arrowMRS" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto"><path d="M0,6 L4,0 L8,6 Z" fill="currentColor"/></marker></defs>
+  </svg>
+
+  <svg id="svgDobot" viewBox="0 0 300 200" aria-hidden="true">
+    <circle cx="60" cy="160" r="6" fill="currentColor"/>
+    <line x1="60" y1="160" x2="110" y2="100" stroke="currentColor" stroke-width="2.5"/>
+    <circle cx="110" cy="100" r="5" fill="currentColor"/>
+    <line x1="110" y1="100" x2="180" y2="80" stroke="currentColor" stroke-width="2.5"/>
+    <circle cx="180" cy="80" r="4.5" fill="currentColor"/>
+    <line x1="180" y1="80" x2="230" y2="95" stroke="currentColor" stroke-width="2"/>
+    <circle cx="230" cy="95" r="4" fill="currentColor"/>
+    <line x1="230" y1="95" x2="255" y2="70" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="255" cy="70" r="3.5" fill="currentColor"/>
+    <text x="65" y="180" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q1</text>
+    <text x="100" y="90" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q2</text>
+    <text x="175" y="65" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q3</text>
+    <text x="230" y="115" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q4</text>
+  </svg>
+
+  <svg id="svgRRT" viewBox="0 0 300 200" aria-hidden="true">
+    <rect x="30" y="30" width="240" height="140" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 5"/>
+    <path d="M45 150 Q90 60 150 100 T255 50" fill="none" stroke="currentColor" stroke-width="2"/>
+    <circle cx="45" cy="150" r="4" fill="currentColor"/>
+    <circle cx="150" cy="100" r="3" fill="currentColor" opacity="0.6"/>
+    <circle cx="255" cy="50" r="4" fill="currentColor"/>
+    <circle cx="80" cy="90" r="10" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <circle cx="190" cy="75" r="14" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <text x="42" y="170" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">start</text>
+    <text x="235" y="42" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">goal</text>
+  </svg>
+
+  <svg id="svgSLAM" viewBox="0 0 300 200" aria-hidden="true">
+    <line x1="30" y1="170" x2="270" y2="170" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+    <path d="M30 170 L60 150 L95 155 L120 130 L150 132 L180 105 L210 100 L240 75 L270 70" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M30 170 L58 145 L90 148 L118 118 L148 122 L176 92 L208 88 L238 60 L270 55" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.6"/>
+    <circle cx="30" cy="170" r="4" fill="currentColor"/>
+    <circle cx="270" cy="70" r="4" fill="currentColor"/>
+    <circle cx="270" cy="55" r="3" fill="currentColor" opacity="0.6"/>
+    <text x="150" y="192" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">odometry vs. odometry+landmarks</text>
+  </svg>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -2228,6 +2513,42 @@
     requestAnimationFrame(updateArm);
   }
   requestAnimationFrame(updateArm);
+
+  // ---------- work index: hover-swap preview panel + click-to-expand detail ----------
+  // Each row either points at a real image (data-preview) or a hidden inline <svg> in
+  // #svgLibrary (data-svg id) for the projects that don't have a real figure. Hovering swaps
+  // the sticky side preview; clicking toggles that row's own accordion detail open/closed
+  // (multiple can be open at once — no exclusivity logic, simplest thing that reads fine here).
+  (function () {
+    // Populate every inline-schematic detail slot once, up front — these are cheap static
+    // clones of the hidden #svgLibrary, not re-cloned on every open/close.
+    document.querySelectorAll('[data-svg-slot]').forEach((slot) => {
+      const src = document.getElementById(slot.dataset.svgSlot);
+      if (src) slot.appendChild(src.cloneNode(true));
+    });
+
+    const previewMedia = document.getElementById('workPreviewMedia');
+    const previewHint = document.querySelector('.work-preview-hint');
+    const rows = document.querySelectorAll('.work-row');
+    rows.forEach((row) => {
+      row.addEventListener('click', () => {
+        row.closest('.work-item').classList.toggle('open');
+      });
+      row.addEventListener('mouseenter', () => {
+        previewMedia.innerHTML = '';
+        if (row.dataset.kind === 'img') {
+          const img = document.createElement('img');
+          img.src = row.dataset.preview;
+          img.alt = row.querySelector('.work-name').textContent;
+          previewMedia.appendChild(img);
+        } else if (row.dataset.kind === 'svg') {
+          const src = document.getElementById(row.dataset.svg);
+          if (src) previewMedia.appendChild(src.cloneNode(true));
+        }
+        if (previewHint) previewHint.style.display = 'none';
+      });
+    });
+  })();
 </script>
 </body>
 </html>
