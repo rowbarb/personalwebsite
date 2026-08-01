@@ -453,7 +453,6 @@
   .spec-meta { font-family: var(--mono); font-size: 0.75rem; color: var(--paper-dim); white-space: nowrap; text-align: right; }
 
   /* work: numbered index list + hover-swapped preview panel */
-  .work-wrap { display: grid; grid-template-columns: 1fr 360px; gap: 64px; align-items: start; }
   .work-list { border-top: 1px solid var(--line); }
   .work-item { border-bottom: 1px solid var(--line); }
   .work-row {
@@ -528,6 +527,7 @@
     border-radius: 4px;
     overflow: hidden;
     background: #131210;
+    align-self: start;
   }
   .work-detail-media.lightbox-trigger { cursor: pointer; transition: border-color 0.2s ease; }
   .work-detail-media.lightbox-trigger:hover { border-color: var(--accent); }
@@ -637,29 +637,6 @@
     .lightbox-next { right: 8px; width: 42px; height: 42px; }
   }
 
-  .work-preview {
-    position: sticky;
-    top: 120px;
-    aspect-ratio: 4 / 3;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    overflow: hidden;
-    background: #131210;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .work-preview-media { width: 100%; height: 100%; }
-  .work-preview-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .work-preview-media svg { width: 100%; height: 100%; padding: 30px; color: var(--accent); }
-  .work-preview-hint {
-    position: absolute;
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    color: var(--paper-dim);
-  }
-  .work-preview:has(img, svg) .work-preview-hint { display: none; }
-
   /* experience: manifest/launch-list style */
   .manifest { border-top: 1px solid var(--line); max-width: 900px; }
   .manifest-row {
@@ -710,8 +687,6 @@
   .site-footer a:hover { color: var(--accent); }
 
   @media (max-width: 900px) {
-    .work-wrap { grid-template-columns: 1fr; }
-    .work-preview { position: static; aspect-ratio: 16/9; }
     .work-detail { grid-template-columns: 1fr; }
     .work-gallery { grid-template-columns: repeat(2, 1fr); }
     .work-row { grid-template-columns: 40px 1fr 24px; }
@@ -1008,10 +983,9 @@
 
 <section class="work-section" id="work">
   <p class="index-kicker">02 / WORK</p>
-  <h2 class="stmt">Nine projects.<span class="stmt-dim">Hover to preview, click to expand.</span></h2>
+  <h2 class="stmt">Nine projects.<span class="stmt-dim">Click to expand.</span></h2>
 
-  <div class="work-wrap">
-    <div class="work-list" id="workList">
+  <div class="work-list" id="workList">
 
       <div class="work-item">
         <button class="work-row" data-kind="img" data-preview="images/squirp-robot.png">
@@ -1328,19 +1302,71 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media lightbox-trigger" data-caption="Bode plot of the submersible pitch-control system at K=1.04, showing 74.51° phase margin and 15.94 dB gain margin"><img src="images/auv-bode-margins.jpg" alt="Bode plot of the submersible pitch-control system at K=1.04, showing 74.51° phase margin and 15.94 dB gain margin" loading="lazy"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="Bode plot of the baseline closed-loop system across all three test gains (K=1.04, 4.11, 28.2) — magnitude shifts up with gain while phase stays fixed, showing directly how rising gain erodes the margins."><img src="images/auv-bode-margins.jpg" alt="Bode plot of the baseline pitch-control system across gains 1.04, 4.11, and 28.2" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Analyzed an unmanned submersible's pitch-control architecture via root
-                locus and Bode analysis (baseline: 74.5° phase margin, 15.9 dB gain margin).
-                Designed a PD compensator — K(s) = 1.47(s + 2.04) — then refined it into a PID
-                compensator to meet the project's &le;15% overshoot, &le;15s settling time, and
-                zero steady-state error requirements.</p>
+                locus and Bode analysis (baseline: 74.5° phase margin, 15.9 dB gain margin at
+                K=1.04). Designed a PD compensator — K(s) = 1.47(s + 2.04) — then refined it
+                into a PID compensator to meet the project's &le;15% overshoot, &le;15s
+                settling time, and zero steady-state error requirements.</p>
                 <ul class="work-stats">
                   <li>Baseline system: 74.5° phase margin, 15.9 dB gain margin</li>
                   <li>PD compensator: K(s) = 1.47(s + 2.04)</li>
                   <li>Final PID compensator meets &le;15% OS, &le;15s settling, zero SS error</li>
                   <li>4-person team project, ME 483 Control Systems</li>
                 </ul>
+                <div class="work-gallery">
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-block-diagram.jpg" data-caption="The pitch-control architecture: reference pitch angle, controller K(s), actuator G_elev(s), and pitch dynamics G_p(s) in a unity-feedback loop, with the plant transfer functions given below.">
+                      <img src="images/auv-block-diagram.jpg" alt="Block diagram of the pitch angle control architecture with controller, actuator, and plant transfer functions" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-root-locus-baseline.jpg" data-caption="Baseline root locus. Poles and zeros all sit in the left half-plane, but the loci sweep into the right half-plane at higher gain — the three marked points (K=1.04, 4.11, 28.2) show stable, marginally stable, and unstable behavior respectively.">
+                      <img src="images/auv-root-locus-baseline.jpg" alt="Root locus of the baseline pitch angle control system with three marked gain points" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-step-response-gains.jpg" data-caption="Step response at each of the three gains: K=1.04 is overdamped and stable, K=4.11 is underdamped but stable, and K=28.2 is unstable, growing without bound.">
+                      <img src="images/auv-step-response-gains.jpg" alt="Step response plots for gains 1.04, 4.11, and 28.2 showing overdamped, underdamped, and unstable behavior" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pd-design-editor.jpg" data-caption="MATLAB Control System Designer's root locus editor with the &le;15% overshoot / &le;15s settling-time constraint region shaded in yellow. The design point at the intersection of both constraints (-0.267 ± j0.442) sets the target for the PD compensator zero.">
+                      <img src="images/auv-pd-design-editor.jpg" alt="Root locus editor showing percent overshoot and settling time constraint boundaries for PD design" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pd-root-locus.jpg" data-caption="Root locus with the PD compensator zero placed at s=-2.03 and gain K=1.47 applied — the locus now passes through the design point, satisfying both the overshoot and settling-time requirements.">
+                      <img src="images/auv-pd-root-locus.jpg" alt="Root locus of the system with the PD compensator applied" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pd-step-response.jpg" data-caption="Step response with the PD compensator: 10.36% overshoot at 8.46s, settling in 12.78s — both within the &le;15% / &le;15s targets, though the system still carries steady-state error.">
+                      <img src="images/auv-pd-step-response.jpg" alt="Step response of the PD-compensated system showing 10.36% overshoot and 12.78s settling time" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pid-designer-k1.jpg" data-caption="First pass at the PID compensator (K_PID=1): the added integrator eliminates steady-state error, but settling time blows out to 43.39s — far beyond the 15s target, so the gain still needs tuning.">
+                      <img src="images/auv-pid-designer-k1.jpg" alt="Control System Designer session showing PID compensator at K=1 with 43.39s settling time" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pid-designer-k3.jpg" data-caption="After tuning the PID gain to K_PID=3: 13.95% overshoot and 14.5s settling time — both requirements met, with zero steady-state error now guaranteed by the integrator term. This is the final design.">
+                      <img src="images/auv-pid-designer-k3.jpg" alt="Control System Designer session showing final PID compensator at K=3 meeting all requirements" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pid-root-locus.jpg" data-caption="Root locus of the final PID-compensated system — closed-loop poles at -2.04, -1.521, -0.0506, and -0.2267 ± j0.5814, confirming stability with the tuned gain.">
+                      <img src="images/auv-pid-root-locus.jpg" alt="Root locus of the PID-compensated system with closed-loop pole locations marked" loading="lazy">
+                    </button>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/auv-pid-final-bode.jpg" data-caption="Bode plot of the final PID-compensated forward path: about 45° phase margin and 16dB gain margin, balancing the stability/performance tradeoff the uncompensated system's overly conservative margins didn't need to make.">
+                      <img src="images/auv-pid-final-bode.jpg" alt="Bode plot of the final PID-compensated forward-path transfer function" loading="lazy">
+                    </button>
+                  </figure>
+                </div>
               </div>
             </div>
           </div>
@@ -1517,12 +1543,6 @@
       </div>
 
     </div>
-
-    <div class="work-preview" id="workPreview">
-      <div class="work-preview-media" id="workPreviewMedia"></div>
-      <p class="work-preview-hint">hover a row —></p>
-    </div>
-  </div>
 </section>
 
 <section class="stmt-section alt-bg" id="experience">
@@ -2763,11 +2783,9 @@
   }
   requestAnimationFrame(updateArm);
 
-  // ---------- work index: hover-swap preview panel + click-to-expand detail ----------
-  // Each row either points at a real image (data-preview) or a hidden inline <svg> in
-  // #svgLibrary (data-svg id) for the projects that don't have a real figure. Hovering swaps
-  // the sticky side preview; clicking toggles that row's own accordion detail open/closed
-  // (multiple can be open at once — no exclusivity logic, simplest thing that reads fine here).
+  // ---------- work index: click-to-expand detail, single-open accordion ----------
+  // Each row's detail panel toggles open/closed on click. Opening one row closes any other
+  // currently-open row, so only one project's detail is expanded at a time.
   (function () {
     // Populate every inline-schematic detail slot once, up front — these are cheap static
     // clones of the hidden #svgLibrary, not re-cloned on every open/close.
@@ -2776,25 +2794,15 @@
       if (src) slot.appendChild(src.cloneNode(true));
     });
 
-    const previewMedia = document.getElementById('workPreviewMedia');
-    const previewHint = document.querySelector('.work-preview-hint');
     const rows = document.querySelectorAll('.work-row');
     rows.forEach((row) => {
       row.addEventListener('click', () => {
-        row.closest('.work-item').classList.toggle('open');
-      });
-      row.addEventListener('mouseenter', () => {
-        previewMedia.innerHTML = '';
-        if (row.dataset.kind === 'img') {
-          const img = document.createElement('img');
-          img.src = row.dataset.preview;
-          img.alt = row.querySelector('.work-name').textContent;
-          previewMedia.appendChild(img);
-        } else if (row.dataset.kind === 'svg') {
-          const src = document.getElementById(row.dataset.svg);
-          if (src) previewMedia.appendChild(src.cloneNode(true));
-        }
-        if (previewHint) previewHint.style.display = 'none';
+        const item = row.closest('.work-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.work-item.open').forEach((openItem) => {
+          if (openItem !== item) openItem.classList.remove('open');
+        });
+        item.classList.toggle('open', !isOpen);
       });
     });
   })();
