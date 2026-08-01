@@ -525,7 +525,9 @@
     background: #131210;
     aspect-ratio: 4 / 3;
   }
-  .work-detail-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work-detail-media.lightbox-trigger { cursor: pointer; transition: border-color 0.2s ease; }
+  .work-detail-media.lightbox-trigger:hover { border-color: var(--accent); }
+  .work-detail-media img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .work-detail-media svg { width: 100%; height: 100%; padding: 24px; color: var(--accent); }
   .work-detail-copy p { color: var(--paper-dim); line-height: 1.75; font-size: 0.98rem; margin-bottom: 20px; }
   .work-detail-copy em { color: var(--paper); font-style: italic; }
@@ -545,16 +547,91 @@
     gap: 10px;
     margin-top: 22px;
   }
-  .work-gallery a {
+  .work-gallery button {
+    all: unset;
+    box-sizing: border-box;
     display: block;
+    width: 100%;
     aspect-ratio: 4 / 3;
     border: 1px solid var(--line);
     border-radius: 4px;
     overflow: hidden;
+    cursor: pointer;
     transition: border-color 0.2s ease;
   }
-  .work-gallery a:hover { border-color: var(--accent); }
-  .work-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work-gallery button:hover { border-color: var(--accent); }
+  .work-gallery img { width: 100%; height: 100%; object-fit: contain; display: block; background: #131210; }
+  .work-gallery figure { margin: 0; }
+  .work-gallery figcaption, .work-detail-caption {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--paper-dim);
+    margin-top: 8px;
+  }
+  .work-detail-caption { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+
+  /* ---------- lightbox: click a gallery thumbnail, or the main detail image, to open ---------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    background: rgba(13, 13, 11, 0.96);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 60px 80px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-frame { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .lightbox-caption {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--paper-dim);
+    max-width: 720px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .lightbox-counter {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--paper-dim);
+    margin-top: 10px;
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    all: unset;
+    box-sizing: border-box;
+    position: fixed;
+    cursor: pointer;
+    color: var(--paper);
+    font-family: var(--mono);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: rgba(19, 18, 16, 0.8);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover { border-color: var(--accent); color: var(--accent); }
+  .lightbox-close { top: 28px; right: 28px; width: 40px; height: 40px; font-size: 1.3rem; }
+  .lightbox-prev, .lightbox-next { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 1.4rem; }
+  .lightbox-prev { left: 24px; }
+  .lightbox-next { right: 24px; }
+
+  @media (max-width: 700px) {
+    .lightbox { padding: 90px 20px; }
+    .lightbox-prev { left: 8px; width: 42px; height: 42px; }
+    .lightbox-next { right: 8px; width: 42px; height: 42px; }
+  }
 
   .work-preview {
     position: sticky;
@@ -943,7 +1020,9 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media"><img src="images/squirp-robot.png" alt="Assembled autonomous campus tour robot with ultrasonic sensors, GPS float, and Arduino electronics" loading="lazy"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="The assembled robot — tracked chassis, three ultrasonic sensors up front, and the GPS float mounted on top.">
+                <img src="images/squirp-robot.png" alt="Assembled autonomous campus tour robot with ultrasonic sensors, GPS float, and Arduino electronics" loading="lazy">
+              </div>
               <div class="work-detail-copy">
                 <p>Designed and fabricated a 3D-printed autonomous ground robot integrating a
                 YDLIDAR G4 laser scanner and multiple ultrasonic sensors for real-time obstacle
@@ -956,10 +1035,48 @@
                   <li>Live path-planning telemetry over MQTT/Wi-Fi</li>
                 </ul>
                 <div class="work-gallery">
-                  <a href="images/campus-target-map.png" target="_blank" rel="noopener"><img src="images/campus-target-map.png" alt="Target map overlaying navigation waypoints T1–T4 on Stevens Institute campus buildings" loading="lazy"></a>
-                  <a href="images/campus-pcb-schematic.png" target="_blank" rel="noopener"><img src="images/campus-pcb-schematic.png" alt="PCB schematic showing WeMos D1, OLED display, ultrasonic sensors, and motor driver wiring" loading="lazy"></a>
-                  <a href="images/campus-cad-exploded-full.png" target="_blank" rel="noopener"><img src="images/campus-cad-exploded-full.png" alt="Exploded SolidWorks assembly of the full robot chassis and electronics stack" loading="lazy"></a>
-                  <a href="images/campus-cad-exploded-detail.png" target="_blank" rel="noopener"><img src="images/campus-cad-exploded-detail.png" alt="Exploded SolidWorks detail view of the sensor mount and drive base" loading="lazy"></a>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-target-map.png" data-caption="The mapped obstacle course overlaid on real Stevens campus buildings — SP marks the start, T1–T4 are waypoints visited in order, with real-world coordinates and building dimensions annotated for the path-planning code.">
+                      <img src="images/campus-target-map.png" alt="Target map overlaying navigation waypoints SP, T1–T4 on Stevens Institute campus buildings" loading="lazy">
+                    </button>
+                    <figcaption>Course map: start point and 4 waypoints, mapped onto real campus buildings.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-cad-orthographic.png" data-caption="Orthographic engineering drawings of the sensor mount — front, isometric, top, and side views used to check that the housing for three ultrasonic sensors would fit together correctly before printing it.">
+                      <img src="images/campus-cad-orthographic.png" alt="Orthographic CAD drawing of the ultrasonic sensor mount" loading="lazy">
+                    </button>
+                    <figcaption>Engineering drawing of the sensor mount, checked from every angle before printing.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-print-preview.png" data-caption="The sensor mount as sliced for 3D printing — each colored band is one layer the printer will trace, checked here for gaps or unsupported overhangs before committing to a print.">
+                      <img src="images/campus-print-preview.png" alt="3D print slicer preview of the sensor mount" loading="lazy">
+                    </button>
+                    <figcaption>The same part sliced for 3D printing, checked layer-by-layer before printing.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-cad-top-motors.png" data-caption="A top-down view of the drive base showing the two rear motors angled outward from the centerline — this splayed mounting geometry widens the robot's effective wheelbase for better turning stability.">
+                      <img src="images/campus-cad-top-motors.png" alt="Top-down CAD view of the drive base showing motor mounting angles" loading="lazy">
+                    </button>
+                    <figcaption>Top-down view of the drive motors, angled outward for a wider, more stable turning base.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-pcb-schematic.png" data-caption="The electronics schematic — a WeMos D1 microcontroller wired to an OLED display, three ultrasonic sensors, and a dual-channel motor driver, laid out here before the physical board was built.">
+                      <img src="images/campus-pcb-schematic.png" alt="PCB schematic showing WeMos D1, OLED display, ultrasonic sensors, and motor driver wiring" loading="lazy">
+                    </button>
+                    <figcaption>Electronics schematic: microcontroller, display, sensors, and motor driver wired together.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-cad-exploded-full.png" data-caption="Exploded SolidWorks assembly of the full robot — every layer from the tracked chassis up through the electronics stack to the GPS float, pulled apart to show how it all fits together.">
+                      <img src="images/campus-cad-exploded-full.png" alt="Exploded SolidWorks assembly of the full robot chassis and electronics stack" loading="lazy">
+                    </button>
+                    <figcaption>Full exploded assembly, from chassis to GPS float.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/campus-cad-exploded-detail.png" data-caption="A closer exploded view of the sensor mount and drive base, showing how the ultrasonic sensors, control board, and wheels stack together.">
+                      <img src="images/campus-cad-exploded-detail.png" alt="Exploded SolidWorks detail view of the sensor mount and drive base" loading="lazy">
+                    </button>
+                    <figcaption>Closer exploded view of the sensor mount and drive base.</figcaption>
+                  </figure>
                 </div>
               </div>
             </div>
@@ -968,32 +1085,90 @@
       </div>
 
       <div class="work-item">
-        <button class="work-row" data-kind="svg" data-svg="svgGCOven">
+        <button class="work-row" data-kind="img" data-preview="images/gc-expo-poster.jpg">
           <span class="work-num">02</span>
           <span class="work-name">Programmable Gas Chromatography Oven</span>
           <span class="work-tag">Thermal/Structural FEA · PID Control · CNC Fabrication</span>
-          <span class="work-meta">400°C · 5-min cooldown</span>
+          <span class="work-meta">400°C · ~20-min cooldown</span>
           <span class="work-toggle">+</span>
         </button>
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media" data-svg-slot="svgGCOven"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="The finished oven alongside its presentation poster at Stevens' Innovation Expo.">
+                <img src="images/gc-expo-poster.jpg" alt="The completed GC oven presented alongside its poster at Stevens Institute's Innovation Expo" loading="lazy">
+              </div>
               <div class="work-detail-copy">
-                <p>Led the mechanical design team on a faculty-advised capstone (Group A7,
-                sponsored by GOW-MAC) building a programmable GC oven — the core challenge
-                being not just fast heating, but fast <em>cooldown</em> between sample runs,
-                since that's what actually limits GC throughput. Validated the AISI 304 steel
-                enclosure with SolidWorks structural (2 atm internal pressure), thermal, and CFD
-                flow analysis before fabricating the inner and outer shells via CNC milling,
-                lathe work, riveting, and TIG welding. Implemented and tuned closed-loop PID
-                temperature control on Arduino with heating elements and thermocouples.</p>
+                <p>Led the mechanical design team on a faculty-advised senior capstone (Group
+                A7, sponsored by GOW-MAC Instrument Co., advised by Dr. Zahra Pournorouz)
+                building a programmable GC oven — the core challenge being not just fast
+                heating, but fast <em>cooldown</em> between sample runs, since that's what
+                actually limits GC throughput. Validated the AISI 304 stainless steel enclosure
+                with SolidWorks structural (2 atm internal pressure), thermal, and CFD flow
+                analysis, then fabricated the inner and outer shells via CNC milling, lathe
+                work, riveting, and TIG welding. Built and tuned closed-loop PID temperature
+                control around an Arduino Mega, a nickel-chromium heating element, and a Type-K
+                thermocouple, with a relay-and-contactor-driven fan and a stepper-driven vent for
+                active cooling. Measured cooldown across three repeated trials confirmed the
+                design: from roughly 400°C down under 50°C in about 20 minutes, and back to
+                near-ambient by roughly half an hour.</p>
                 <ul class="work-stats">
                   <li>Ramp targets: 40°C/min to 200°C, tapering to 7°C/min approaching 400°C</li>
-                  <li>Cooldown targets: 350&rarr;75°C in 5 min, 300&rarr;50°C in 8 min</li>
+                  <li>Measured cooldown (3 trials): under 50°C by ~20 min, near-ambient by ~32 min</li>
+                  <li>6-bladed, 8" fan (120VAC, ~1700 RPM) paired with a stepper-driven vent</li>
                   <li>Structural design verified to 2 atm internal pressure in SolidWorks FEA</li>
-                  <li>Led weekly progress meetings for a 5-person, faculty-advised team</li>
+                  <li>Presented at Stevens' Innovation Expo; led a 5-person, faculty-advised team</li>
                 </ul>
+                <div class="work-gallery">
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-exploded-cad-2.jpg" data-caption="Exploded SolidWorks assembly — every layer of the oven, from outer shell to inner chamber to fan plate, pulled apart to show how it all fits together before anything was cut.">
+                      <img src="images/gc-exploded-cad-2.jpg" alt="Exploded SolidWorks assembly of the GC oven" loading="lazy">
+                    </button>
+                    <figcaption>Exploded CAD assembly, planned before any metal was cut.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-thermal-analysis.jpg" data-caption="Simulated heat spread inside the oven wall — warmer colors near the heating elements, cooler toward the outer shell, used to confirm the insulation would keep the outside safe to touch.">
+                      <img src="images/gc-thermal-analysis.jpg" alt="Thermal simulation of the oven interior" loading="lazy">
+                    </button>
+                    <figcaption>Simulated heat spread through the oven wall, checked before building.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-circuit-schematic.jpg" data-caption="The full electronics schematic: an Arduino Mega reads the thermocouple through a PID controller, switches the heating coil via a solid-state relay, drives the fan through a contactor, and runs a stepper-controlled vent motor — all fed from separate 5V and 24V supplies.">
+                      <img src="images/gc-circuit-schematic.jpg" alt="Electronics schematic showing Arduino Mega, PID controller, relays, and motor wiring" loading="lazy">
+                    </button>
+                    <figcaption>Full electronics schematic — controller, relays, and motor wiring.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-machining-photo.jpg" data-caption="Machining the vent holes on the mill — cutting coolant visible on the metal as each hole is drilled to spec.">
+                      <img src="images/gc-machining-photo.jpg" alt="Milling vent holes into sheet metal on a manual mill" loading="lazy">
+                    </button>
+                    <figcaption>Machining the vent holes on the mill.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-clamping-assembly.jpg" data-caption="Clamping the welded shell square while the top panel is drilled and fastened — the two brass discs are the thermocouple and vent ports.">
+                      <img src="images/gc-clamping-assembly.jpg" alt="Clamping and drilling the sheet-metal enclosure during assembly" loading="lazy">
+                    </button>
+                    <figcaption>Clamping the shell square during final assembly.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-front-view-built.jpg" data-caption="The finished enclosure, front-facing, with the fan grille mounted — built and labeled in the machine shop.">
+                      <img src="images/gc-front-view-built.jpg" alt="Front view of the completed oven enclosure with fan grille" loading="lazy">
+                    </button>
+                    <figcaption>The finished enclosure, fan grille mounted.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-full-wired-unit.jpg" data-caption="The complete unit with the motor, power supplies, relays, and Arduino Mega all wired up and mounted to the base rail.">
+                      <img src="images/gc-full-wired-unit.jpg" alt="Fully wired GC oven unit with motor and electronics mounted" loading="lazy">
+                    </button>
+                    <figcaption>Fully wired: motor, power supplies, relays, and controller.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/gc-cool-rate-chart.jpg" data-caption="Measured cooldown across three repeated trials — the oven drops from roughly 400°C to under 50°C in about 20 minutes, and levels off near ambient by roughly 32 minutes. This is real measured data, not a simulation.">
+                      <img src="images/gc-cool-rate-chart.jpg" alt="Measured cooldown rate chart across three test trials" loading="lazy">
+                    </button>
+                    <figcaption>Real measured cooldown, 3 trials — the actual payoff of the design.</figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
           </div>
@@ -1001,30 +1176,61 @@
       </div>
 
       <div class="work-item">
-        <button class="work-row" data-kind="svg" data-svg="svgMobileSim">
+        <button class="work-row" data-kind="img" data-preview="images/sorting-completed-sim.jpg">
           <span class="work-num">03</span>
-          <span class="work-name">Mobile Robot Simulation &amp; Closed-Loop Control</span>
-          <span class="work-tag">MATLAB &amp; Simulink · Wall-Following · Sensor Feedback</span>
-          <span class="work-meta">Closed-loop · Simulink</span>
+          <span class="work-name">Autonomous Puck Sorting &amp; Wall Avoidance</span>
+          <span class="work-tag">MATLAB &amp; Stateflow · Color Detection · Geometric Safety Model</span>
+          <span class="work-meta">6/6 trials · 82&ndash;167s</span>
           <span class="work-toggle">+</span>
         </button>
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media" data-svg-slot="svgMobileSim"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="The completed simulation — isometric, robot-eye, and top-down views showing the robot at rest at the origin after delivering both pucks to their matching color zones.">
+                <img src="images/sorting-completed-sim.jpg" alt="Completed simulation showing the robot at the origin after delivering both pucks" loading="lazy">
+              </div>
               <div class="work-detail-copy">
-                <p>Simulated a differential-drive robot in MATLAB's Robotics Playground,
-                wall-following the perimeter of a 4m&times;4m arena using a single
-                front-facing distance sensor. Starting from an open-loop test of
-                forward/reverse/arcing motions, built up a closed-loop switch-block controller,
-                then replaced a "naive" threshold-based version with a buffer-enforced design
-                (derived from the sensor's field of view and a 0.25m safety margin) that tracked
-                the wall more reliably at near-parallel approach angles.</p>
+                <p>Built an autonomous puck-sorting robot in MATLAB's Robotics Playground with
+                a 5-person team (ME 598, Group WS8): the robot locates two RGB-colored pucks
+                using a forward-facing color detector, delivers each to its matching colored
+                zone, and returns to the arena's origin — tested across all six possible
+                puck-color permutations. Navigation runs on a Stateflow state machine (search
+                &rarr; grab &rarr; escort &rarr; return), with zone/origin guidance computed
+                outside the state machine in Simulink to avoid algebraic loops. The standout
+                piece is the wall-avoidance layer: instead of a heuristic repulsion behavior, it
+                analytically derives the minimum safe clearance from the robot's own geometry —
+                using an empirically measured 0.165m offset between the side sensor and the
+                robot's actual collision boundary — then runs as a continuous corrective layer
+                capped at 75% authority, so it steers the robot away from walls without
+                overriding the state machine's intent unless a collision is geometrically
+                unavoidable, at which point a full-authority "panic" maneuver takes over.</p>
                 <ul class="work-stats">
-                  <li>Closed-loop wall-tracking from a single 2m-range distance sensor</li>
-                  <li>Derived a 1.0m switching threshold from geometry, not guesswork</li>
-                  <li>5-person team project, ME 598 Introduction to Robotics</li>
+                  <li>All 6 puck-color permutations succeeded (RG, RB, GR, GB, BR, BG)</li>
+                  <li>Fastest run: red-green in 82.1s; average ~120s across all 6</li>
+                  <li>Wall clearance derived analytically from sensor geometry, not tuned by hand</li>
+                  <li>Wall-avoidance capped at 75% authority except in a full-override "panic" mode</li>
+                  <li>Best run documented on <a href="https://www.youtube.com/watch?v=bjRtxRdJ4f4" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">video</a></li>
                 </ul>
+                <div class="work-gallery">
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/sorting-arena-annotated.jpg" data-caption="The arena, fully annotated before any code was written — origin, zone boundaries, and every key coordinate the robot's logic would need to reference.">
+                      <img src="images/sorting-arena-annotated.jpg" alt="Annotated diagram of the sorting arena with zone coordinates" loading="lazy">
+                    </button>
+                    <figcaption>The arena, annotated with every coordinate the logic needed.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/sorting-zone-simulink.jpg" data-caption="The Simulink block that computes distance and heading to a target zone from the robot's current pose — kept outside the state machine specifically to avoid an algebraic loop.">
+                      <img src="images/sorting-zone-simulink.jpg" alt="Simulink model computing distance and heading to the target zone" loading="lazy">
+                    </button>
+                    <figcaption>Geometry for zone guidance, computed outside the state machine.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/sorting-walltrack-block.jpg" data-caption="The wall-avoidance correction block — takes in the three sensor distances and outputs a normalized steering correction, blended with (not replacing) the state machine's own motor commands.">
+                      <img src="images/sorting-walltrack-block.jpg" alt="Simulink block diagram of the wall-tracking correction logic" loading="lazy">
+                    </button>
+                    <figcaption>Wall-avoidance logic — corrects, rather than overrides, the state machine.</figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
           </div>
@@ -1032,7 +1238,7 @@
       </div>
 
       <div class="work-item">
-        <button class="work-row" data-kind="svg" data-svg="svgDobot">
+        <button class="work-row" data-kind="img" data-preview="images/dobot-joint-diagram.jpg">
           <span class="work-num">04</span>
           <span class="work-name">Dobot Robot Arm Kinematics</span>
           <span class="work-tag">MATLAB · Denavit&ndash;Hartenberg Convention</span>
@@ -1042,7 +1248,7 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media" data-svg-slot="svgDobot"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="Diagram of the Dobot's five joints and their axes of rotation"><img src="images/dobot-joint-diagram.jpg" alt="Diagram of the Dobot's five joints and their axes of rotation" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Derived and validated forward and inverse kinematic models for the Dobot, a
                 5-DOF RRRRR serial manipulator, using Denavit&ndash;Hartenberg convention
@@ -1054,6 +1260,20 @@
                   <li>Symbolic forward-kinematics solution validated across 3 trials</li>
                   <li>Group project, ME 598 Introduction to Robotics</li>
                 </ul>
+                <div class="work-gallery">
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/dobot-joint-diagram.jpg" data-caption="Each numbered circle is one of the arm's five joints, with an arrow showing which way it spins — the starting point for the math (DH convention) that predicts exactly where the tip ends up for any combination of joint angles.">
+                      <img src="images/dobot-joint-diagram.jpg" alt="Dobot joint and axis diagram" loading="lazy">
+                    </button>
+                    <figcaption>Each numbered circle is one of the arm's five joints, with an arrow showing which way it spins — the starting point for the math (DH convention) that predicts exactly where the tip ends up for any combination of joint angles.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/dobot-workspace.jpg" data-caption="Every point inside this shape is somewhere the arm's tip can physically reach. Built from the kinematic model, then used to sanity-check that a target isn't being asked of the arm before it even tries to move there.">
+                      <img src="images/dobot-workspace.jpg" alt="3D plot of the Dobot's reachable workspace" loading="lazy">
+                    </button>
+                    <figcaption>Every point inside this shape is somewhere the arm's tip can physically reach. Built from the kinematic model, then used to sanity-check that a target isn't being asked of the arm before it even tries to move there.</figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
           </div>
@@ -1071,7 +1291,7 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media"><img src="images/coldplate-thermal-study.jpg" alt="SolidWorks thermal simulation showing temperature distribution across the aluminum cold plate" loading="lazy"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="SolidWorks thermal simulation showing temperature distribution across the aluminum cold plate"><img src="images/coldplate-thermal-study.jpg" alt="SolidWorks thermal simulation showing temperature distribution across the aluminum cold plate" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Designed an aluminum (k = 190 W/m&middot;K) microchannel cold plate for
                 IBM's Thermal Conduction Module, sized to dissipate a 108 W chip load while
@@ -1102,7 +1322,7 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media"><img src="images/auv-bode-margins.jpg" alt="Bode plot of the submersible pitch-control system at K=1.04, showing 74.51° phase margin and 15.94 dB gain margin" loading="lazy"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="Bode plot of the submersible pitch-control system at K=1.04, showing 74.51° phase margin and 15.94 dB gain margin"><img src="images/auv-bode-margins.jpg" alt="Bode plot of the submersible pitch-control system at K=1.04, showing 74.51° phase margin and 15.94 dB gain margin" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Analyzed an unmanned submersible's pitch-control architecture via root
                 locus and Bode analysis (baseline: 74.5° phase margin, 15.9 dB gain margin).
@@ -1132,7 +1352,7 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media"><img src="images/cone-detection-pipeline.jpg" alt="Image processing pipeline showing HSV color thresholding, region filtering, and centroid extraction on a traffic cone" loading="lazy"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="Image processing pipeline showing HSV color thresholding, region filtering, and centroid extraction on a traffic cone"><img src="images/cone-detection-pipeline.jpg" alt="Image processing pipeline showing HSV color thresholding, region filtering, and centroid extraction on a traffic cone" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Built an HSV color-thresholding pipeline to detect traffic cones from a
                 mobile robot's camera feed, tuning hue/saturation/value ranges across a labeled
@@ -1151,7 +1371,7 @@
       </div>
 
       <div class="work-item">
-        <button class="work-row" data-kind="svg" data-svg="svgRRT">
+        <button class="work-row" data-kind="img" data-preview="images/rrt-scatter-plot.jpg">
           <span class="work-num">08</span>
           <span class="work-name">RRT Path Planning Under Localization Uncertainty</span>
           <span class="work-tag">MATLAB · RRT · State Estimation</span>
@@ -1161,7 +1381,7 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media" data-svg-slot="svgRRT"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="Scatter plot of path length vs. terminal position uncertainty across 100 RRT trials"><img src="images/rrt-scatter-plot.jpg" alt="Scatter plot of path length vs. terminal position uncertainty across 100 RRT trials" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Ran 100 RRT trials through an obstacle field with a landmark-based
                 localization model and found that path length barely predicts terminal position
@@ -1174,6 +1394,20 @@
                   <li>Shortest path (&asymp;102) landed among the least-confident outcomes</li>
                   <li>A landmark-hugging path (&asymp;112) was far more confident despite similar length</li>
                 </ul>
+                <div class="work-gallery">
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/rrt-path-ellipses.jpg" data-caption="Two valid routes to the same goal. The ellipses show how unsure the robot is about its own position at each step — a bigger ellipse means it's more 'lost.' Hugging landmarks (right) keeps that uncertainty small; cutting through open space lets it balloon.">
+                      <img src="images/rrt-path-ellipses.jpg" alt="RRT path through obstacles with position-uncertainty ellipses" loading="lazy">
+                    </button>
+                    <figcaption>Two valid routes to the same goal. The ellipses show how unsure the robot is about its own position at each step — a bigger ellipse means it's more "lost." Hugging landmarks (right) keeps that uncertainty small; cutting through open space lets it balloon.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/rrt-scatter-plot.jpg" data-caption="Every dot is one full trial run: how long that path was (left-right) against how confident the robot ended up about its final position (up-down). No trend line the eye can find — the whole point being that 'shortest' and 'most confident' are not the same thing.">
+                      <img src="images/rrt-scatter-plot.jpg" alt="Scatter plot of path length vs. final position uncertainty" loading="lazy">
+                    </button>
+                    <figcaption>Every dot is one full trial run: how long that path was (left-right) against how confident the robot ended up about its final position (up-down). No trend line the eye can find — the whole point being that "shortest" and "most confident" are not the same thing.</figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
           </div>
@@ -1181,7 +1415,7 @@
       </div>
 
       <div class="work-item">
-        <button class="work-row" data-kind="svg" data-svg="svgSLAM">
+        <button class="work-row" data-kind="img" data-preview="images/slam-kalman-comparison.jpg">
           <span class="work-num">09</span>
           <span class="work-name">SLAM: Least Squares &amp; Kalman Filter Localization</span>
           <span class="work-tag">MATLAB · Batch Least Squares · Kalman Filter</span>
@@ -1191,18 +1425,35 @@
         <div class="work-detail-wrap">
           <div class="work-detail-inner">
             <div class="work-detail">
-              <div class="work-detail-media" data-svg-slot="svgSLAM"></div>
+              <div class="work-detail-media lightbox-trigger" data-caption="Kalman filter position error with and without landmark measurements, compared over 1000 trials"><img src="images/slam-kalman-comparison.jpg" alt="Kalman filter position error with and without landmark measurements, compared over 1000 trials" loading="lazy"></div>
               <div class="work-detail-copy">
                 <p>Implemented and compared two discrete-time SLAM approaches — batch least
                 squares and a linear Kalman filter — for a mobile robot navigating by odometry
-                alone versus odometry fused with landmark detections. Odometry-only position
-                error grew steadily to roughly 0.26m over a 100-second traversal; adding
-                landmark measurements visibly suppressed that drift in both estimators.</p>
+                alone versus odometry fused with landmark detections, averaged over 1000 trials
+                each. Odometry-only position error grew steadily to roughly 0.26m over a
+                100-second traversal for both estimators; adding landmark measurements
+                suppressed batch least squares' drift only modestly (to ~0.21m), but nearly
+                eliminated the Kalman filter's, dropping and holding it under 0.02m for the rest
+                of the run.</p>
                 <ul class="work-stats">
-                  <li>Compared batch least squares vs. linear Kalman filter estimators</li>
+                  <li>Compared batch least squares vs. linear Kalman filter, 1000 trials each</li>
                   <li>Odometry-only drift reached &asymp;0.26m over a 100s traversal</li>
-                  <li>Landmark fusion visibly suppressed drift in both estimators</li>
+                  <li>Landmark fusion: least squares improved to &asymp;0.21m, Kalman filter to &lt;0.02m</li>
                 </ul>
+                <div class="work-gallery">
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/slam-odometry-only.jpg" data-caption="Tracking position using only the wheels' own turn count, with no outside reference. Small measurement errors compound with every step, so the robot's belief about where it is drifts steadily further from reality the longer it drives.">
+                      <img src="images/slam-odometry-only.jpg" alt="Position error growing steadily using odometry alone" loading="lazy">
+                    </button>
+                    <figcaption>Tracking position using only the wheels' own turn count, with no outside reference. Small measurement errors compound with every step, so the robot's belief about where it is drifts steadily further from reality the longer it drives.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="lightbox-trigger" data-img="images/slam-kalman-comparison.jpg" data-caption="Same robot, but now it also recognizes landmarks as it passes them. Each sighting lets it correct its drifting position estimate, snapping the error back down instead of letting it grow unchecked — the sharp drop is the moment it spots the first landmark.">
+                      <img src="images/slam-kalman-comparison.jpg" alt="Kalman filter error dropping sharply after a landmark sighting" loading="lazy">
+                    </button>
+                    <figcaption>Same robot, but now it also recognizes landmarks as it passes them. Each sighting lets it correct its drifting position estimate, snapping the error back down instead of letting it grow unchecked — the sharp drop is the moment it spots the first landmark.</figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
           </div>
@@ -1254,79 +1505,21 @@
   </div>
 </section>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+  <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous image">&larr;</button>
+  <button class="lightbox-next" id="lightboxNext" aria-label="Next image">&rarr;</button>
+  <div class="lightbox-frame">
+    <img id="lightboxImg" src="" alt="">
+  </div>
+  <p class="lightbox-caption" id="lightboxCaption"></p>
+  <p class="lightbox-counter" id="lightboxCounter"></p>
+</div>
+
 <footer class="site-footer">
   <p>© 2026 Rowan Barbalich.</p>
   <a href="#top">Back to top ↑</a>
 </footer>
-
-<!-- hidden library of inline SVG schematics, cloned into the work-preview panel on hover -->
-<div id="svgLibrary" style="display:none">
-  <svg id="svgGCOven" viewBox="0 0 480 320" aria-hidden="true">
-    <rect x="40" y="60" width="220" height="180" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
-    <rect x="60" y="80" width="180" height="140" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
-    <path d="M80 200 q10 -30 20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    <text x="70" y="245" font-family="var(--mono)" font-size="11" fill="currentColor" opacity="0.8">Heating Element</text>
-    <line x1="260" y1="120" x2="340" y2="120" stroke="currentColor" stroke-width="1.5"/>
-    <line x1="260" y1="160" x2="340" y2="160" stroke="currentColor" stroke-width="1.5" marker-end="url(#arrowGCO)"/>
-    <text x="270" y="110" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">sense</text>
-    <text x="270" y="180" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">actuate</text>
-    <rect x="340" y="95" width="100" height="130" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="352" y="120" font-family="var(--mono)" font-size="11" fill="currentColor" opacity="0.8">PID</text>
-    <text x="352" y="140" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">setpoint:</text>
-    <text x="352" y="156" font-family="var(--mono)" font-size="9" fill="currentColor">400°C</text>
-    <defs><marker id="arrowGCO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker></defs>
-  </svg>
-
-  <svg id="svgMobileSim" viewBox="0 0 480 320" aria-hidden="true">
-    <rect x="30" y="30" width="420" height="260" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 6"/>
-    <rect x="200" y="150" width="40" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
-    <path d="M180 60 h-90 v200 h90" fill="none" stroke="currentColor" stroke-width="2.5"/>
-    <path d="M220 150 q0 -60 0 -90" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrowMRS)"/>
-    <text x="150" y="55" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">wall</text>
-    <path d="M240 163 C 300 163 340 130 380 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
-    <path d="M240 163 C 300 163 330 200 370 220" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4"/>
-    <text x="330" y="95" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">sensor</text>
-    <defs><marker id="arrowMRS" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto"><path d="M0,6 L4,0 L8,6 Z" fill="currentColor"/></marker></defs>
-  </svg>
-
-  <svg id="svgDobot" viewBox="0 0 300 200" aria-hidden="true">
-    <circle cx="60" cy="160" r="6" fill="currentColor"/>
-    <line x1="60" y1="160" x2="110" y2="100" stroke="currentColor" stroke-width="2.5"/>
-    <circle cx="110" cy="100" r="5" fill="currentColor"/>
-    <line x1="110" y1="100" x2="180" y2="80" stroke="currentColor" stroke-width="2.5"/>
-    <circle cx="180" cy="80" r="4.5" fill="currentColor"/>
-    <line x1="180" y1="80" x2="230" y2="95" stroke="currentColor" stroke-width="2"/>
-    <circle cx="230" cy="95" r="4" fill="currentColor"/>
-    <line x1="230" y1="95" x2="255" y2="70" stroke="currentColor" stroke-width="1.5"/>
-    <circle cx="255" cy="70" r="3.5" fill="currentColor"/>
-    <text x="65" y="180" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q1</text>
-    <text x="100" y="90" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q2</text>
-    <text x="175" y="65" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q3</text>
-    <text x="230" y="115" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">q4</text>
-  </svg>
-
-  <svg id="svgRRT" viewBox="0 0 300 200" aria-hidden="true">
-    <rect x="30" y="30" width="240" height="140" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 5"/>
-    <path d="M45 150 Q90 60 150 100 T255 50" fill="none" stroke="currentColor" stroke-width="2"/>
-    <circle cx="45" cy="150" r="4" fill="currentColor"/>
-    <circle cx="150" cy="100" r="3" fill="currentColor" opacity="0.6"/>
-    <circle cx="255" cy="50" r="4" fill="currentColor"/>
-    <circle cx="80" cy="90" r="10" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-    <circle cx="190" cy="75" r="14" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-    <text x="42" y="170" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">start</text>
-    <text x="235" y="42" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">goal</text>
-  </svg>
-
-  <svg id="svgSLAM" viewBox="0 0 300 200" aria-hidden="true">
-    <line x1="30" y1="170" x2="270" y2="170" stroke="currentColor" stroke-width="1" opacity="0.4"/>
-    <path d="M30 170 L60 150 L95 155 L120 130 L150 132 L180 105 L210 100 L240 75 L270 70" fill="none" stroke="currentColor" stroke-width="2"/>
-    <path d="M30 170 L58 145 L90 148 L118 118 L148 122 L176 92 L208 88 L238 60 L270 55" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.6"/>
-    <circle cx="30" cy="170" r="4" fill="currentColor"/>
-    <circle cx="270" cy="70" r="4" fill="currentColor"/>
-    <circle cx="270" cy="55" r="3" fill="currentColor" opacity="0.6"/>
-    <text x="150" y="192" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.8">odometry vs. odometry+landmarks</text>
-  </svg>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1355,8 +1548,8 @@
       rawMouseY = e.clientY;
       hasMouse = true;
     });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => gsap.to(dot, { scale: 3, duration: 0.25 }));
+    document.querySelectorAll('a, button, .lightbox-trigger').forEach(el => {
+      el.addEventListener('mouseenter', () => gsap.to(dot, { scale: 1.12, duration: 0.25 }));
       el.addEventListener('mouseleave', () => gsap.to(dot, { scale: 1, duration: 0.25 }));
     });
   } else {
@@ -2547,6 +2740,70 @@
         }
         if (previewHint) previewHint.style.display = 'none';
       });
+    });
+  })();
+
+  // ---------- lightbox: click any project image to open a slideshow of that project's images ----------
+  // Every clickable image (.lightbox-trigger) is grouped by its containing .work-item — the main
+  // detail photo plus every gallery thumbnail for that project become one ordered set, so
+  // left/right always cycles through just that project's own images, never bleeding into another
+  // project's set. Nothing here ever opens a new tab.
+  (function () {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    let currentSet = [];
+    let currentIndex = 0;
+
+    function getSetFor(trigger) {
+      const item = trigger.closest('.work-item');
+      const triggers = Array.from(item.querySelectorAll('.lightbox-trigger'));
+      return triggers.map((el) => ({
+        src: el.dataset.img || el.querySelector('img').getAttribute('src'),
+        caption: el.dataset.caption || ''
+      }));
+    }
+
+    function show(index) {
+      currentIndex = (index + currentSet.length) % currentSet.length;
+      const entry = currentSet[currentIndex];
+      lightboxImg.src = entry.src;
+      lightboxImg.alt = entry.caption;
+      lightboxCaption.textContent = entry.caption;
+      lightboxCounter.textContent = currentSet.length > 1 ? `${currentIndex + 1} / ${currentSet.length}` : '';
+    }
+
+    function open(trigger) {
+      currentSet = getSetFor(trigger);
+      const clickedSrc = trigger.dataset.img || trigger.querySelector('img').getAttribute('src');
+      const startIndex = currentSet.findIndex((e) => e.src === clickedSrc);
+      show(startIndex >= 0 ? startIndex : 0);
+      lightbox.classList.add('open');
+    }
+
+    function close() {
+      lightbox.classList.remove('open');
+      lightboxImg.src = '';
+    }
+
+    document.querySelectorAll('.lightbox-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation(); // don't also toggle the row/accordion this image sits inside
+        open(trigger);
+      });
+    });
+
+    document.getElementById('lightboxPrev').addEventListener('click', (e) => { e.stopPropagation(); show(currentIndex - 1); });
+    document.getElementById('lightboxNext').addEventListener('click', (e) => { e.stopPropagation(); show(currentIndex + 1); });
+    document.getElementById('lightboxClose').addEventListener('click', close);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); }); // click backdrop to close
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(currentIndex - 1);
+      else if (e.key === 'ArrowRight') show(currentIndex + 1);
     });
   })();
 </script>
