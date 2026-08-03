@@ -92,8 +92,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 0 clamp(20px, 5vw, 56px);
+    justify-content: flex-end;
+    padding: 0 clamp(20px, 5vw, 56px) clamp(140px, 18vh, 200px);
     max-width: 1400px;
     margin: 0 auto;
   }
@@ -201,9 +201,9 @@
        doesn't create its own stacking context (position: relative with no z-index), so these
        values are compared directly against the cursor dot's, not scoped away from it. */
     z-index: 302;
-    top: 12%;
+    top: 6%;
     right: clamp(-20px, 3vw, 40px);
-    width: min(36vw, 440px);
+    width: min(50vw, 560px);
     pointer-events: none;
   }
   .schematic svg { width: 100%; height: auto; overflow: visible; }
@@ -785,6 +785,22 @@
       <text class="hero-star" x="597" y="193">*</text>
       <text class="hero-star" x="651" y="0">*</text>
       <text class="hero-star" x="900" y="240">*</text>
+
+      <!-- New batch: fills the band just below the original cluster (y=270-370), which was
+           previously empty. Kept in a tighter band than the full lower half of the viewBox,
+           since .hero-copy/.hero-title now sit anchored lower and their exact rendered height
+           varies by viewport — safer to extend the field moderately than risk stars landing
+           on top of the repositioned text. -->
+      <text class="hero-star" x="120" y="290">*</text>
+      <text class="hero-star" x="260" y="330">*</text>
+      <text class="hero-star" x="50" y="350">*</text>
+      <text class="hero-star" x="380" y="300">*</text>
+      <text class="hero-star" x="330" y="360">*</text>
+      <text class="hero-star" x="620" y="290">*</text>
+      <text class="hero-star" x="760" y="320">*</text>
+      <text class="hero-star" x="880" y="300">*</text>
+      <text class="hero-star" x="940" y="350">*</text>
+      <text class="hero-star" x="540" y="340">*</text>
     </svg>
   </div>
 
